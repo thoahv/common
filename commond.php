@@ -33,3 +33,19 @@ else
 {
     echo 'You have neither cUrl installed nor allow_url_fopen activated. Please setup one of those!';
 }
+
+// file_get_conten zend fb
+   $client = new Zend_Http_Client();
+            $client->setMethod(Zend_Http_Client::GET);
+	    	$arpost = array(
+				            'client_id' => $ssoOptions[$oauthType]['appId'],
+				            'redirect_uri' => $ssoOptions[$oauthType]['callbackUrl'],
+				            'client_secret' => $ssoOptions[$oauthType]['secret'],
+				            'code' => $code
+	    				);
+            // get access_token
+            $accessTokenUrl = $ssoOptions[$oauthType]['accessTokenUrl'] . http_build_query($arpost);
+            $client->setUri($accessTokenUrl);
+            $response = $client->request();
+           
+            $content =  $response->getBody();
